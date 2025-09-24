@@ -1,0 +1,6 @@
+@LetterBox.API_HostAddress = http://localhost:5080
+
+GET {{LetterBox.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
