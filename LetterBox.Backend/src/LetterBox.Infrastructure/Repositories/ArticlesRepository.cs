@@ -14,11 +14,18 @@ namespace LetterBox.Infrastructure.Repositories
         public async Task<Guid> Add(
             Article article, CancellationToken cancellationToken = default)
         {
-            await _dbContext.Articles.AddAsync(article, cancellationToken);
+            try
+            {
+                await _dbContext.Articles.AddAsync(article, cancellationToken);
+                
+                await _dbContext.SaveChangesAsync(cancellationToken);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
-            return article.Id;
+                return article.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

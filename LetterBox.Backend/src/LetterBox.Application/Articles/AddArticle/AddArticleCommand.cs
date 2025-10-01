@@ -1,4 +1,4 @@
-﻿namespace LetterBox.Application.Dtos
+﻿namespace LetterBox.Application.Articles.AddArticle
 {
     public record AddArticleCommand(
         string Title,
@@ -7,5 +7,6 @@
         string Excerpt,
         string Status,
         string FeaturedImage,
-        int ViewsCount);
+        int ViewsCount,
+        Guid CategoryId);
 }

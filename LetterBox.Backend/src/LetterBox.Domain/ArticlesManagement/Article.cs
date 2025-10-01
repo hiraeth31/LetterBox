@@ -25,8 +25,8 @@
             Status = status;
             FeaturedImage = featuredImage;
             ViewsCount = viewsCount;
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
             CategoryId = categoryId;
         }
 
