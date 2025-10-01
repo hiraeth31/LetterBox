@@ -1,4 +1,5 @@
 ﻿using LetterBox.Application.Articles;
+using LetterBox.Application.Categories;
 using LetterBox.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,7 @@ namespace LetterBox.Infrastructure
         {
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<IArticlesRepository, ArticlesRepository>();
+            services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 
             return services;
         }
