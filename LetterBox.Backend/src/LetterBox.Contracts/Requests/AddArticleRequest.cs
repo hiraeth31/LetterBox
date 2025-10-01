@@ -1,4 +1,4 @@
-﻿using LetterBox.Application.Dtos;
+﻿using LetterBox.Application.Articles.AddArticle;
 
 namespace LetterBox.Contracts.Requests
 {
@@ -9,9 +9,10 @@ namespace LetterBox.Contracts.Requests
         string Excerpt,
         string Status,
         string FeaturedImage,
-        int ViewsCount)
+        int ViewsCount,
+        Guid CategoryId)
     {
         public AddArticleCommand ToCommand() =>
-            new(Title, Content, Slug, Excerpt, Status, FeaturedImage, ViewsCount);
+            new(Title, Content, Slug, Excerpt, Status, FeaturedImage, ViewsCount, CategoryId);
     }
 }

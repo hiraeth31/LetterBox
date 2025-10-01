@@ -1,5 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using LetterBox.Application.Dtos;
 using LetterBox.Domain.ArticlesManagement;
 
 namespace LetterBox.Application.Articles.AddArticle
@@ -18,7 +17,6 @@ namespace LetterBox.Application.Articles.AddArticle
         {
             var articleId = Guid.NewGuid();
 
-            // id category add
             var article = new Article(
                 articleId,
                 command.Title,
@@ -28,9 +26,9 @@ namespace LetterBox.Application.Articles.AddArticle
                 command.Status,
                 command.FeaturedImage,
                 command.ViewsCount,
-                Guid.NewGuid());
+                command.CategoryId);
 
-            await _articlesRepository.Add(article);
+            await _articlesRepository.Add(article, cancellationToken);
 
             return article.Id;
         }
