@@ -11,6 +11,7 @@ namespace LetterBox.Infrastructure
         private const string DATABASE = "Database";
         public DbSet<Article> Articles => Set<Article>();
         public DbSet<User> Users => Set<User>();
+        public DbSet<Category> Categories => Set<Category>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
