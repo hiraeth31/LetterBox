@@ -23,7 +23,6 @@ namespace LetterBox.Infrastructure.Repositories
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

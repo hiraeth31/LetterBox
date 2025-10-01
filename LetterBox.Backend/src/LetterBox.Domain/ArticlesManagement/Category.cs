@@ -5,6 +5,22 @@
         private Category() // ef core
         {
         }
+
+        public Category(
+            Guid id,
+            string name,
+            string slug,
+            string excerpt,
+            string description)
+        {
+            Id = id;
+            Name = name;
+            Slug = slug;
+            Excerpt = excerpt;
+            Description = description;
+            CreatedAt = DateTime.UtcNow;
+        }
+
         private readonly List<Article> _articles = [];
         public Guid Id { get; private set; }
         public string Name { get; private set; } = default!;

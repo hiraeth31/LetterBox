@@ -41,7 +41,7 @@ namespace LetterBox.Infrastructure.Configurations
 
             builder.HasOne(ar => ar.Category)
                 .WithMany(c => c.Articles)
-                .HasForeignKey("category_id");
+                .HasForeignKey(ar => ar.CategoryId);
         }
     }
 }
