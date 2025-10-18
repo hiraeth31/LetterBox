@@ -1,4 +1,6 @@
-﻿using LetterBox.Application.Articles.AddArticle;
+﻿using LetterBox.Application.Accounts.LoginUser;
+using LetterBox.Application.Accounts.RegisterUser;
+using LetterBox.Application.Articles.AddArticle;
 using LetterBox.Application.Categories.AddCategory;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +12,8 @@ namespace LetterBox.Application
         {
             services.AddScoped<AddArticleHandler>();
             services.AddScoped<AddCategoryHandler>();
+            services.AddScoped<RegisterUserHandler>();
+            services.AddScoped<LoginUserHandler>();
 
             return services;
         }
