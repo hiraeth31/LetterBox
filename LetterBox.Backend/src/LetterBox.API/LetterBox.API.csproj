@@ -20,6 +20,7 @@
     <ProjectReference Include="..\LetterBox.Application\LetterBox.Application.csproj" />
     <ProjectReference Include="..\LetterBox.Contracts\LetterBox.Contracts.csproj" />
     <ProjectReference Include="..\LetterBox.Domain\LetterBox.Domain.csproj" />
+    <ProjectReference Include="..\LetterBox.Infrastructure.Authentication\LetterBox.Infrastructure.Authentication.csproj" />
     <ProjectReference Include="..\LetterBox.Infrastructure\LetterBox.Infrastructure.csproj" />
   </ItemGroup>
 

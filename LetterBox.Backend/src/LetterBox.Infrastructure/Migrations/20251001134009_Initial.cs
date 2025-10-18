@@ -58,24 +58,23 @@ namespace LetterBox.Infrastructure.Migrations
                     ViewsCount = table.Column<int>(type: "integer", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    category_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_articles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_articles_categories_category_id",
-                        column: x => x.category_id,
+                        name: "FK_articles_categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_articles_category_id",
+                name: "IX_articles_CategoryId",
                 table: "articles",
-                column: "category_id");
+                column: "CategoryId");
         }
 
         /// <inheritdoc />

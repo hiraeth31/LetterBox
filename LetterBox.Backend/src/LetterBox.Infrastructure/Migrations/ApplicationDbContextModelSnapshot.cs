@@ -72,12 +72,9 @@ namespace LetterBox.Infrastructure.Migrations
                     b.Property<int>("ViewsCount")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("category_id")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("category_id");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("articles", (string)null);
                 });
@@ -159,7 +156,7 @@ namespace LetterBox.Infrastructure.Migrations
                 {
                     b.HasOne("LetterBox.Domain.ArticlesManagement.Category", "Category")
                         .WithMany("Articles")
-                        .HasForeignKey("category_id")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -1,6 +1,8 @@
 ﻿using LetterBox.Application.Articles.AddArticle;
 using LetterBox.Application.Categories.AddCategory;
 using LetterBox.Contracts.Requests;
+using LetterBox.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetterBox.API.Controllers
@@ -9,6 +11,7 @@ namespace LetterBox.API.Controllers
     [Route("[controller]")]
     public class CategoriesController : Controller
     {
+        [Permission("category.create")]
         [HttpPost]
         public async Task<ActionResult> Create(
             [FromServices] AddCategoryHandler handler,
@@ -22,7 +25,7 @@ namespace LetterBox.API.Controllers
             if (result.IsFailure)
             {
                 return BadRequest();
-            }
+             }
 
             return Ok(result.Value);
         }
