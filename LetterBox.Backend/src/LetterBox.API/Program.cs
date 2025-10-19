@@ -2,6 +2,7 @@ using LetterBox.API.Middlewares;
 using LetterBox.Application;
 using LetterBox.Infrastructure;
 using LetterBox.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,11 @@ builder.Services.AddSwaggerGen(c =>
       new string[] { }
     }
   });
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
 });
 
 builder.Services
