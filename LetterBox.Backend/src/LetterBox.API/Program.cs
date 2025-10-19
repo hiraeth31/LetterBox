@@ -1,3 +1,4 @@
+using LetterBox.API.Middlewares;
 using LetterBox.Application;
 using LetterBox.Infrastructure;
 using LetterBox.Infrastructure.Authentication;
@@ -44,6 +45,8 @@ builder.Services
 
 var app = builder.Build();
 
+app.UseExceptionMiddleware();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -53,9 +56,23 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(config =>
+{
+    //config.AllowAnyOrigin();
+    config.WithOrigins("http://localhost:5173")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/api/categories", () =>
+{
+    string[] arr = ["category_1", "category_2"];
+    return Results.Ok(arr);
+});
 
 app.Run();

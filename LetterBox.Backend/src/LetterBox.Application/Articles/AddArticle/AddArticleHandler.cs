@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using LetterBox.Domain.ArticlesManagement;
+using LetterBox.Domain.Common;
 
 namespace LetterBox.Application.Articles.AddArticle
 {
@@ -13,7 +14,7 @@ namespace LetterBox.Application.Articles.AddArticle
             _articlesRepository = articlesRepository;
         }
 
-        public async Task<Result<Guid>> Handle(AddArticleCommand command, CancellationToken cancellationToken = default)
+        public async Task<Result<Guid, ErrorList>> Handle(AddArticleCommand command, CancellationToken cancellationToken = default)
         {
             var articleId = Guid.NewGuid();
 

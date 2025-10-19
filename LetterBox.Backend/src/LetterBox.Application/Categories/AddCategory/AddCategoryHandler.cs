@@ -2,6 +2,7 @@
 using LetterBox.Application.Articles;
 using LetterBox.Application.Articles.AddArticle;
 using LetterBox.Domain.ArticlesManagement;
+using LetterBox.Domain.Common;
 
 namespace LetterBox.Application.Categories.AddCategory
 {
@@ -13,7 +14,7 @@ namespace LetterBox.Application.Categories.AddCategory
         {
             _categoriesRepository = categoriesRepository;
         }
-        public async Task<Result<Guid>> Handle(AddCategoryCommand command, CancellationToken cancellationToken = default)
+        public async Task<Result<Guid, ErrorList>> Handle(AddCategoryCommand command, CancellationToken cancellationToken = default)
         {
             var categoryId = Guid.NewGuid();
 
