@@ -1,6 +1,8 @@
-﻿using LetterBox.Application;
+﻿using LetterBox.API.Middlewares;
+using LetterBox.Application;
 using LetterBox.Infrastructure;
 using LetterBox.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,12 +39,19 @@ builder.Services.AddSwaggerGen(c =>
   });
 });
 
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
 builder.Services
     .AddInfrastructure()
     .AddApplication()
     .AddInfrastructureAthentication(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseExceptionMiddleware();
 
 if (app.Environment.IsDevelopment())
 {
@@ -53,9 +62,23 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(config =>
+{
+    //config.AllowAnyOrigin();
+    config.WithOrigins("http://localhost:5173")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/api/categories", () =>
+{
+    string[] arr = ["category_1", "category_2"];
+    return Results.Ok(arr);
+});
 
 app.Run();

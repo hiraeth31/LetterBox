@@ -3,7 +3,7 @@ using FluentValidation;
 using LetterBox.Application.Articles;
 using LetterBox.Application.Articles.AddArticle;
 using LetterBox.Domain.ArticlesManagement;
-using System.ComponentModel.DataAnnotations;
+using LetterBox.Domain.Common;
 
 namespace LetterBox.Application.Categories.AddCategory
 {
@@ -19,8 +19,7 @@ namespace LetterBox.Application.Categories.AddCategory
 
             _validator = validator;
         }
-
-        public async Task<Result<Guid>> Handle(AddCategoryCommand command, CancellationToken cancellationToken = default)
+        public async Task<Result<Guid, ErrorList>> Handle(AddCategoryCommand command, CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
             if(validationResult.IsValid == false)
