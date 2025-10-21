@@ -113,45 +113,6 @@ namespace LetterBox.Infrastructure.Migrations
                     b.ToTable("categories", (string)null);
                 });
 
-            modelBuilder.Entity("LetterBox.Domain.UsersManagement.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("email");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("password_hash");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("role");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("user_name");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_active");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("users", (string)null);
-                });
-
             modelBuilder.Entity("LetterBox.Domain.ArticlesManagement.Article", b =>
                 {
                     b.HasOne("LetterBox.Domain.ArticlesManagement.Category", "Category")

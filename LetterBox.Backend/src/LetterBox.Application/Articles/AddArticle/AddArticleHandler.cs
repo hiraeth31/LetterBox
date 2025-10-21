@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using LetterBox.Domain.ArticlesManagement;
 using LetterBox.Domain.Common;
 
@@ -7,15 +8,26 @@ namespace LetterBox.Application.Articles.AddArticle
     public class AddArticleHandler
     {
         private readonly IArticlesRepository _articlesRepository;
+        private readonly IValidator<AddArticleCommand> _validator;
 
         public AddArticleHandler(
-            IArticlesRepository articlesRepository)
+            IArticlesRepository articlesRepository, 
+            IValidator<AddArticleCommand> validator)
         {
             _articlesRepository = articlesRepository;
+
+            _validator = validator;
+
         }
 
         public async Task<Result<Guid, ErrorList>> Handle(AddArticleCommand command, CancellationToken cancellationToken = default)
         {
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+            if(validationResult.IsValid == false)
+            {
+
+            }
+
             var articleId = Guid.NewGuid();
 
             var article = new Article(

@@ -10,7 +10,7 @@ namespace LetterBox.API.Controllers
     [Route("[controller]")]
     public class CategoriesController : Controller
     {
-        [Permission("category.create")]
+       // [Permission("category.create")]
         [HttpPost]
         public async Task<EndpointResult<Guid>> Create(
             [FromServices] AddCategoryHandler handler,
