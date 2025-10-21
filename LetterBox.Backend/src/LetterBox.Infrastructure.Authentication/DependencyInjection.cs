@@ -70,10 +70,6 @@ namespace LetterBox.Infrastructure.Authentication
                 //    policy => { policy.AddRequirements(new PermissionAttribute("create.article")); });
             });
 
-            services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
-
-            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-
             return services;
         }
     }

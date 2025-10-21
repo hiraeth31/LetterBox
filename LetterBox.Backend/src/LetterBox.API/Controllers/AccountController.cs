@@ -1,7 +1,7 @@
-﻿using LetterBox.Application.Accounts.LoginUser;
+﻿using LetterBox.API.Authorization;
+using LetterBox.Application.Accounts.LoginUser;
 using LetterBox.Application.Accounts.RegisterUser;
 using LetterBox.Contracts.Requests;
-using LetterBox.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
