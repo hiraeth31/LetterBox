@@ -1,7 +1,9 @@
-﻿using LetterBox.API.Middlewares;
+using LetterBox.API.Authorization;
+using LetterBox.API.Middlewares;
 using LetterBox.Application;
 using LetterBox.Infrastructure;
 using LetterBox.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
@@ -48,6 +50,10 @@ builder.Services
     .AddInfrastructure()
     .AddApplication()
     .AddInfrastructureAthentication(builder.Configuration);
+
+builder.Services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
+
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
 var app = builder.Build();
 
