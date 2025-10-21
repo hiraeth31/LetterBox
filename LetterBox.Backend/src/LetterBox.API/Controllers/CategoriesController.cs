@@ -11,7 +11,7 @@ namespace LetterBox.API.Controllers
     [Route("[controller]")]
     public class CategoriesController : Controller
     {
-        [Permission("category.create")]
+       // [Permission("category.create")]
         [HttpPost]
         public async Task<ActionResult> Create(
             [FromServices] AddCategoryHandler handler,
@@ -19,13 +19,12 @@ namespace LetterBox.API.Controllers
             CancellationToken cancellationToken)
         {
             var command = request.ToCommand();
-
             var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
             {
                 return BadRequest();
-             }
+            }
 
             return Ok(result.Value);
         }
