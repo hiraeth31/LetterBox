@@ -11,8 +11,7 @@ namespace LetterBox.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Guid> Add(
-            Article article, CancellationToken cancellationToken = default)
+        public async Task<Guid> Add(Article article, CancellationToken cancellationToken = default)
         {
             try
             {

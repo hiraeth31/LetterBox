@@ -7,7 +7,9 @@ namespace LetterBox.Application.Categories.AddCategory
 
         public AddCategoryValidator()
         {
-            RuleFor(s => s.Excerpt).MinimumLength(2);
+            //RuleFor(s => s.Excerpt).NotEmpty().When(s => s.Excerpt != null);
+            RuleFor(s => s.Description).MinimumLength(5);
+            RuleFor(s => s.Excerpt).NotEmpty().NotNull();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace LetterBox.Application.Articles.AddArticle
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
             if(validationResult.IsValid == false)
             {
-
+                validationResult.Errors.ToList();
             }
 
             var articleId = Guid.NewGuid();
