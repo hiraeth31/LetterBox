@@ -10,7 +10,7 @@
   },
   "Roles": {
     "Base": [
-      "articles.create"
+      "articles.read"
     ],
     "Admin": [
       "articles.create",
