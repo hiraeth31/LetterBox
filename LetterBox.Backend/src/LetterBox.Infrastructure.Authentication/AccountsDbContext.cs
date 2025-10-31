@@ -7,14 +7,19 @@ using Microsoft.Extensions.Logging;
 
 namespace LetterBox.Infrastructure.Authentication
 {
-    public class AuthorizationDbContext(IConfiguration configuration)
+    public class AccountsDbContext(IConfiguration configuration)
         : IdentityDbContext<User, Role, Guid>
     {
         private const string DATABASE = "Database";
 
+        public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+        public DbSet<Permission> Permissions => Set<Permission>();
+        public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE));
+            optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
         }
 
@@ -24,6 +29,23 @@ namespace LetterBox.Infrastructure.Authentication
 
             modelBuilder.Entity<User>()
                 .ToTable("users");
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Roles)
+                .WithMany()
+                .UsingEntity<IdentityUserRole<Guid>>();
+
+            modelBuilder.Entity<AdminAccount>()
+                .ToTable("admin_accounts");
+
+            modelBuilder.Entity<AdminAccount>()
+                .HasOne(a => a.User)
+                .WithOne()
+                .HasForeignKey<AdminAccount>(a => a.UserId);
+
+            modelBuilder.Entity<AdminAccount>()
+                .Property(x => x.FullName)
+                .HasColumnName("full_name");
 
             modelBuilder.Entity<User>()
                 .Property(x => x.CreatedAt)
@@ -42,11 +64,6 @@ namespace LetterBox.Infrastructure.Authentication
             modelBuilder.Entity<Permission>()
                 .HasIndex(p => p.Code)
                 .IsUnique();
-
-            modelBuilder.Entity<Permission>()
-                .Property(p => p.Description)
-                .HasMaxLength(100)
-                .HasColumnName("description");
 
             modelBuilder.Entity<RolePermission>()
                 .ToTable("role_permissions");
@@ -78,6 +95,8 @@ namespace LetterBox.Infrastructure.Authentication
 
             modelBuilder.Entity<IdentityUserRole<Guid>>()
                 .ToTable("user_roles");
+
+            modelBuilder.HasDefaultSchema("accounts");
         }
 
         private ILoggerFactory CreateLoggerFactory() =>

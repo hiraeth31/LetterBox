@@ -27,5 +27,14 @@
                 return Error.Validation("record.already.exist", $"Запись уже существует");
             }
         }
+
+        public static class User
+        {
+            public static Error UserError(string? name = null)
+            {
+                var label = name ?? "value";
+                return Error.Validation("user.is.invalid", $"{label} ошибка, связанная с пользователем");
+            }
+        }
     }
 }

@@ -3,7 +3,6 @@ using System;
 using LetterBox.Infrastructure.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,19 +10,40 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LetterBox.Infrastructure.Authentication.Migrations
 {
-    [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20251008085945_InitialAuth")]
-    partial class InitialAuth
+    [DbContext(typeof(AccountsDbContext))]
+    partial class AccountsDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("accounts")
                 .HasAnnotation("ProductVersion", "9.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.AdminAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("full_name");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("admin_accounts", "accounts");
+                });
 
             modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.Permission", b =>
                 {
@@ -35,18 +55,12 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("description");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.ToTable("permissions", (string)null);
+                    b.ToTable("permissions", "accounts");
                 });
 
             modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.Role", b =>
@@ -73,7 +87,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("roles", (string)null);
+                    b.ToTable("roles", "accounts");
                 });
 
             modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.RolePermission", b =>
@@ -88,7 +102,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("role_permissions", (string)null);
+                    b.ToTable("role_permissions", "accounts");
                 });
 
             modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.User", b =>
@@ -161,7 +175,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -185,7 +199,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("role_claims", (string)null);
+                    b.ToTable("role_claims", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -209,7 +223,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_claims", (string)null);
+                    b.ToTable("user_claims", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -230,7 +244,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_logins", (string)null);
+                    b.ToTable("user_logins", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -245,7 +259,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("user_roles", (string)null);
+                    b.ToTable("user_roles", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -264,7 +278,18 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("user_tokens", (string)null);
+                    b.ToTable("user_tokens", "accounts");
+                });
+
+            modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.AdminAccount", b =>
+                {
+                    b.HasOne("LetterBox.Application.Accounts.DataModels.User", "User")
+                        .WithOne()
+                        .HasForeignKey("LetterBox.Application.Accounts.DataModels.AdminAccount", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.RolePermission", b =>

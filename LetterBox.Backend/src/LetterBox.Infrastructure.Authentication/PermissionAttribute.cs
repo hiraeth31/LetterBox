@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace LetterBox.API.Authorization
+namespace LetterBox.Infrastructure.Authentication
 {
     public class PermissionAttribute : AuthorizeAttribute, IAuthorizationRequirement
     {

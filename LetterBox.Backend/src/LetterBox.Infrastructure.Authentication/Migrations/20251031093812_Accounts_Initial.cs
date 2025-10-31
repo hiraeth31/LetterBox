@@ -7,18 +7,21 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LetterBox.Infrastructure.Authentication.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialAuth : Migration
+    public partial class Accounts_Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "accounts");
+
             migrationBuilder.CreateTable(
                 name: "permissions",
+                schema: "accounts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                    Code = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,6 +30,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
             migrationBuilder.CreateTable(
                 name: "roles",
+                schema: "accounts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -41,6 +45,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
             migrationBuilder.CreateTable(
                 name: "users",
+                schema: "accounts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -68,6 +73,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
             migrationBuilder.CreateTable(
                 name: "role_claims",
+                schema: "accounts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -82,6 +88,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                     table.ForeignKey(
                         name: "FK_role_claims_roles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "accounts",
                         principalTable: "roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -89,6 +96,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
             migrationBuilder.CreateTable(
                 name: "role_permissions",
+                schema: "accounts",
                 columns: table => new
                 {
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -100,19 +108,43 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                     table.ForeignKey(
                         name: "FK_role_permissions_permissions_PermissionId",
                         column: x => x.PermissionId,
+                        principalSchema: "accounts",
                         principalTable: "permissions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_role_permissions_roles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "accounts",
                         principalTable: "roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
+                name: "admin_accounts",
+                schema: "accounts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    full_name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_admin_accounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_admin_accounts_users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "accounts",
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user_claims",
+                schema: "accounts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -127,6 +159,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                     table.ForeignKey(
                         name: "FK_user_claims_users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "accounts",
                         principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -134,6 +167,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
             migrationBuilder.CreateTable(
                 name: "user_logins",
+                schema: "accounts",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "text", nullable: false),
@@ -147,6 +181,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                     table.ForeignKey(
                         name: "FK_user_logins_users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "accounts",
                         principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -154,6 +189,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
             migrationBuilder.CreateTable(
                 name: "user_roles",
+                schema: "accounts",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -165,12 +201,14 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                     table.ForeignKey(
                         name: "FK_user_roles_roles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "accounts",
                         principalTable: "roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_user_roles_users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "accounts",
                         principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -178,6 +216,7 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
 
             migrationBuilder.CreateTable(
                 name: "user_tokens",
+                schema: "accounts",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -191,55 +230,72 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                     table.ForeignKey(
                         name: "FK_user_tokens_users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "accounts",
                         principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_admin_accounts_UserId",
+                schema: "accounts",
+                table: "admin_accounts",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_permissions_Code",
+                schema: "accounts",
                 table: "permissions",
                 column: "Code",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_role_claims_RoleId",
+                schema: "accounts",
                 table: "role_claims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_role_permissions_PermissionId",
+                schema: "accounts",
                 table: "role_permissions",
                 column: "PermissionId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
+                schema: "accounts",
                 table: "roles",
                 column: "NormalizedName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_claims_UserId",
+                schema: "accounts",
                 table: "user_claims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_logins_UserId",
+                schema: "accounts",
                 table: "user_logins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_roles_RoleId",
+                schema: "accounts",
                 table: "user_roles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
+                schema: "accounts",
                 table: "users",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
+                schema: "accounts",
                 table: "users",
                 column: "NormalizedUserName",
                 unique: true);
@@ -249,31 +305,44 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "role_claims");
+                name: "admin_accounts",
+                schema: "accounts");
 
             migrationBuilder.DropTable(
-                name: "role_permissions");
+                name: "role_claims",
+                schema: "accounts");
 
             migrationBuilder.DropTable(
-                name: "user_claims");
+                name: "role_permissions",
+                schema: "accounts");
 
             migrationBuilder.DropTable(
-                name: "user_logins");
+                name: "user_claims",
+                schema: "accounts");
 
             migrationBuilder.DropTable(
-                name: "user_roles");
+                name: "user_logins",
+                schema: "accounts");
 
             migrationBuilder.DropTable(
-                name: "user_tokens");
+                name: "user_roles",
+                schema: "accounts");
 
             migrationBuilder.DropTable(
-                name: "permissions");
+                name: "user_tokens",
+                schema: "accounts");
 
             migrationBuilder.DropTable(
-                name: "roles");
+                name: "permissions",
+                schema: "accounts");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "roles",
+                schema: "accounts");
+
+            migrationBuilder.DropTable(
+                name: "users",
+                schema: "accounts");
         }
     }
 }

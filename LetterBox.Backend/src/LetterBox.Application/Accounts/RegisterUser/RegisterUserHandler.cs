@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using LetterBox.Application.Accounts.DataModels;
+using LetterBox.Domain.Common;
 using Microsoft.AspNetCore.Identity;
 
 namespace LetterBox.Application.Accounts.RegisterUser
@@ -13,7 +14,7 @@ namespace LetterBox.Application.Accounts.RegisterUser
             _userManager = userManager;
         }
 
-        public async Task<UnitResult<string>> Handle(
+        public async Task<UnitResult<ErrorList>> Handle(
             RegisterUserCommand command,
             CancellationToken cancellationToken = default)
         {
@@ -23,19 +24,21 @@ namespace LetterBox.Application.Accounts.RegisterUser
             //    return "something went wrong";
             //}
 
-            var user = new User
-            {
-                UserName = command.UserName,
-                Email = command.Email,
-            };
+            //var user = new User
+            //{
+            //    UserName = command.UserName,
+            //    Email = command.Email,
+            //};
 
-            var userResult = await _userManager.CreateAsync(user, command.Password);
-            if (!userResult.Succeeded)
-                return "something went wrong";
+            //var userResult = await _userManager.CreateAsync(user, command.Password);
+            //if (userResult.Succeeded)
+            //{
+            //    return Result.Success<ErrorList>();
+            //}
 
+            //var errors = userResult.Errors.Select(e => Error.Failure(e.Code, e.Description)).ToList();
 
-
-            return "user created";
+            return new ErrorList(Errors.General.ValueIsInvalid("123").ToErrorList());
         }
     }
 }

@@ -1,11 +1,12 @@
-using LetterBox.API.Authorization;
 using LetterBox.API.Middlewares;
 using LetterBox.Application;
 using LetterBox.Infrastructure;
 using LetterBox.Infrastructure.Authentication;
-using Microsoft.AspNetCore.Authorization;
+using LetterBox.Infrastructure.Authentication.Seeding;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+
+DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,11 +52,10 @@ builder.Services
     .AddApplication()
     .AddInfrastructureAthentication(builder.Configuration);
 
-builder.Services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
-
-builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-
 var app = builder.Build();
+
+var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
+await accountsSeeder.SeedAsync();
 
 app.UseExceptionMiddleware();
 
