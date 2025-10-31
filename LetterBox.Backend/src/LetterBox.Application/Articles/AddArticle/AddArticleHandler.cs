@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using LetterBox.Application.Extensions;
 using LetterBox.Domain.ArticlesManagement;
 using LetterBox.Domain.Common;
 
@@ -25,7 +26,7 @@ namespace LetterBox.Application.Articles.AddArticle
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
             if(validationResult.IsValid == false)
             {
-
+                return validationResult.ToErrorList();
             }
 
             var articleId = Guid.NewGuid();

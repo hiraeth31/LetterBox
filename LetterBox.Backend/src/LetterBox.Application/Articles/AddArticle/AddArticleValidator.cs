@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using LetterBox.Application.Validation;
+using LetterBox.Domain.Common;
 
 namespace LetterBox.Application.Articles.AddArticle
 {
@@ -7,9 +9,8 @@ namespace LetterBox.Application.Articles.AddArticle
 
         public AddArticleValidator()
         {
-            RuleFor(s => s.Title).MinimumLength(3);
-
-
+            RuleFor(s => s.Title).MinimumLength(3)
+                                 .WithError(Errors.General.ValueIsInvalid("min 3 characters")); ;
         }
     }
 }
