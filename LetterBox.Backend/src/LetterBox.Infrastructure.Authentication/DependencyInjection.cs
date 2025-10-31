@@ -1,5 +1,8 @@
 ﻿using LetterBox.Application.Accounts.DataModels;
 using LetterBox.Application.Authorization;
+using LetterBox.Infrastructure.Authentication.IdentityManagers;
+using LetterBox.Infrastructure.Authentication.Options;
+using LetterBox.Infrastructure.Authentication.Seeding;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,17 +19,15 @@ namespace LetterBox.Infrastructure.Authentication
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddScoped<AuthorizationDbContext>();
+            services.AddScoped<AccountsDbContext>();
 
             services.AddTransient<ITokenProvider, JwtTokenProvider>();
 
-            services
-                .AddIdentity<User, Role>(options =>
-                {
-                    options.User.RequireUniqueEmail = true;
-                })
-                .AddEntityFrameworkStores<AuthorizationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
+
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+
+            services.RegisterIdentity();
 
             services
                 .AddAuthentication(options =>
@@ -53,8 +54,8 @@ namespace LetterBox.Infrastructure.Authentication
                     };
                 });
 
-            services.Configure<JwtOptions>(
-                configuration.GetSection(JwtOptions.JWT));
+            services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.JWT));
+            services.Configure<AdminOptions>(configuration.GetSection(AdminOptions.ADMIN));
 
             services.AddAuthorization(options =>
             {
@@ -70,7 +71,27 @@ namespace LetterBox.Infrastructure.Authentication
                 //    policy => { policy.AddRequirements(new PermissionAttribute("create.article")); });
             });
 
+            services.AddSingleton<AccountsSeeder>(); 
+            services.AddScoped<AccountsSeederService>(); 
+
+
             return services;
+        }
+
+        private static void RegisterIdentity(this IServiceCollection services)
+        {
+            services
+                .AddIdentity<User, Role>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<AccountsDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<PermissionManager>();
+            services.AddScoped<RolePermissionManager>();
+            services.AddScoped<AdminAccountManager>();
+
         }
     }
 }

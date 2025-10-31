@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace LetterBox.API.Authorization
+namespace LetterBox.Infrastructure.Authentication
 {
     public class PermissionPolicyProvider : IAuthorizationPolicyProvider
-    {
+    { 
         public Task<AuthorizationPolicy> GetDefaultPolicyAsync() =>
             Task.FromResult(new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()

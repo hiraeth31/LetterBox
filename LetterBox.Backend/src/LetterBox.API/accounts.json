@@ -1,0 +1,31 @@
+{
+  "Permissions": {
+    "Articles": [
+      "articles.create",
+      "articles.update",
+      "articles.delete",
+      "articles.read"
+    ],
+    "Categories": [
+      "categories.create",
+      "categories.update",
+      "categories.delete",
+      "categories.read"
+    ]
+  },
+  "Roles": {
+    "Base": [
+      "articles.read"
+    ],
+    "Admin": [
+      "articles.create",
+      "articles.update",
+      "articles.delete",
+      "articles.read",
+      "categories.create",
+      "categories.update",
+      "categories.delete",
+      "categories.read"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-﻿namespace LetterBox.Infrastructure.Authentication
+﻿namespace LetterBox.Infrastructure.Authentication.Options
 {
     public class JwtOptions
     {       

@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using LetterBox.Application.Accounts.DataModels;
 using LetterBox.Application.Authorization;
+using LetterBox.Domain.Common;
 using Microsoft.AspNetCore.Identity;
 
 namespace LetterBox.Application.Accounts.LoginUser
@@ -18,19 +19,15 @@ namespace LetterBox.Application.Accounts.LoginUser
             _tokenProvider = tokenProvider;
         }
 
-        public async Task<Result<string>> Handle(LoginUserCommand command, CancellationToken cancellation = default)
+        public async Task<Result<string, ErrorList>> Handle(LoginUserCommand command, CancellationToken cancellation = default)
         {
             var user = await _userManager.FindByEmailAsync(command.Email);
             if (user is null)
-            {
-                return "User is null";
-            }
+                return Errors.General.NotFound().ToErrorList();
 
             var passwordConfirmation = await _userManager.CheckPasswordAsync(user, command.Password);
             if (!passwordConfirmation)
-            {
-                return "something is wrong";
-            }
+                return Errors.User.UserError().ToErrorList();
 
             var token = _tokenProvider.GenerateAccessToken(user);
 

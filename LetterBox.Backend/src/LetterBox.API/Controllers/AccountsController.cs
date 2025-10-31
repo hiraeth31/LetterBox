@@ -1,39 +1,19 @@
-﻿using LetterBox.API.Authorization;
-using LetterBox.Application.Accounts.LoginUser;
+﻿using LetterBox.Application.Accounts.LoginUser;
 using LetterBox.Application.Accounts.RegisterUser;
 using LetterBox.Contracts.Requests;
+using LetterBox.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetterBox.API.Controllers
 {
-    public static class Permissions
-    {
-        public static class Articles
-        {
-            public const string Create = "articles.create";
-        }
-
-        public static class Categories
-        {
-            public const string Create = "categories.create";
-        }
-    }
-
     [ApiController]
     [Route("[controller]")]
-    public class AccountController : Controller
+    public class AccountsController : Controller
     {
-        [Permission("test.admin")]
+        [Permission(Permissions.Articles.Create)]
         [HttpPost("admin")]
         public IActionResult TestAdmin()
-        {
-            return Ok();
-        }
-
-        [Authorize]
-        [HttpPost("user")]
-        public IActionResult TestUser()
         {
             return Ok();
         }
