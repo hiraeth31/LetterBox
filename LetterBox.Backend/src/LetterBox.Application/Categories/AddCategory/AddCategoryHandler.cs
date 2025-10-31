@@ -2,6 +2,7 @@
 using FluentValidation;
 using LetterBox.Application.Articles;
 using LetterBox.Application.Articles.AddArticle;
+using LetterBox.Application.Extensions;
 using LetterBox.Domain.ArticlesManagement;
 using LetterBox.Domain.Common;
 
@@ -24,7 +25,7 @@ namespace LetterBox.Application.Categories.AddCategory
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
             if(validationResult.IsValid == false)
             {
-                // возврат объекта ошибки дальнейшим обработчикам или middleware
+                return validationResult.ToErrorList();
             }
 
             var categoryId = Guid.NewGuid();
