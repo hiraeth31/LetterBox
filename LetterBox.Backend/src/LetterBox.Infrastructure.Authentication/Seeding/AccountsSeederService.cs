@@ -49,7 +49,7 @@ namespace LetterBox.Infrastructure.Authentication.Seeding
                 ?? throw new ApplicationException("Admin role doesn't exist");
 
             var adminUser = User.CreateAdmin(_adminOptions.UserName, _adminOptions.Email, adminRole);
-            await _userManager.CreateAsync(adminUser, _adminOptions.Password);
+            var result = await _userManager.CreateAsync(adminUser, _adminOptions.Password);
 
             var fullName = "Kirill Krotov";
             var adminAccount = new AdminAccount(fullName, adminUser);

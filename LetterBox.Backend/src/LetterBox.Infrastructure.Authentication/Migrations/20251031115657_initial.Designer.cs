@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LetterBox.Infrastructure.Authentication.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20251031093812_Accounts_Initial")]
-    partial class Accounts_Initial
+    [Migration("20251031115657_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

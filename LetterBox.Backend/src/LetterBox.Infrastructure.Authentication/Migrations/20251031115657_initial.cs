@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LetterBox.Infrastructure.Authentication.Migrations
 {
     /// <inheritdoc />
-    public partial class Accounts_Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

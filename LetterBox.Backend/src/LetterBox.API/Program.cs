@@ -1,4 +1,4 @@
-using LetterBox.API.Middlewares;
+﻿using LetterBox.API.Middlewares;
 using LetterBox.Application;
 using LetterBox.Infrastructure;
 using LetterBox.Infrastructure.Authentication;
@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.ApiKey
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-   {
+    {
      new OpenApiSecurityScheme
      {
        Reference = new OpenApiReference
@@ -71,7 +71,7 @@ app.UseHttpsRedirection();
 app.UseCors(config =>
 {
     //config.AllowAnyOrigin();
-    config.WithOrigins("http://localhost:5173")
+    config.WithOrigins("http://localhost:3000")
         .AllowAnyHeader()
         .AllowAnyMethod();
 });
