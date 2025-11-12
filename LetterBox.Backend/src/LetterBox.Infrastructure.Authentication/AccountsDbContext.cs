@@ -15,6 +15,7 @@ namespace LetterBox.Infrastructure.Authentication
         public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
         public DbSet<Permission> Permissions => Set<Permission>();
         public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
+        public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -54,6 +55,14 @@ namespace LetterBox.Infrastructure.Authentication
             modelBuilder.Entity<User>()
                 .Property(x => x.isActive)
                 .HasColumnName("is_active");
+
+            modelBuilder.Entity<RefreshSession>()
+                .ToTable("refresh_sessions");
+
+            modelBuilder.Entity<RefreshSession>()
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId);
 
             modelBuilder.Entity<Role>()
                 .ToTable("roles");

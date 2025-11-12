@@ -9,23 +9,23 @@ namespace LetterBox.Infrastructure.Authentication.IdentityManagers
         public async Task<Permission?> FindByCode(string code) =>
             await accountsContext.Permissions.FirstOrDefaultAsync(x => x.Code == code);
 
-        public async Task AddRangeIfExist(IEnumerable<string> permissions)
+        public async Task AddRangeIfExist(IEnumerable<string> permissions, CancellationToken cancellationToken = default)
         {
             foreach (var permissionCode in permissions)
             {
                 var isPermissionExist = await accountsContext.Permissions
-                    .AnyAsync(p => p.Code == permissionCode);
+                    .AnyAsync(p => p.Code == permissionCode, cancellationToken);
 
                 if (isPermissionExist)
                     continue;
 
-                await accountsContext.Permissions.AddAsync(new Permission { Code = permissionCode });
+                await accountsContext.Permissions.AddAsync(new Permission { Code = permissionCode }, cancellationToken);
             }
 
-            await accountsContext.SaveChangesAsync();
+            await accountsContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<HashSet<string>> GetUserPermissionCodes(Guid userId)
+        public async Task<HashSet<string>> GetUserPermissionCodes(Guid userId, CancellationToken cancellationToken = default)
         {
             var permissions = await accountsContext.Users
                 .Include(r => r.Roles)
@@ -33,7 +33,7 @@ namespace LetterBox.Infrastructure.Authentication.IdentityManagers
                 .SelectMany(u => u.Roles)
                 .SelectMany(r => r.RolePermissions)
                 .Select(rp => rp.Permission.Code)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return permissions.ToHashSet();
         }

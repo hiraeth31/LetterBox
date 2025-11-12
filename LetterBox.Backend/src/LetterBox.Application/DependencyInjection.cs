@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using LetterBox.Application.Accounts.LoginUser;
+using LetterBox.Application.Accounts.RefreshTokens;
 using LetterBox.Application.Accounts.RegisterUser;
 using LetterBox.Application.Articles.AddArticle;
 using LetterBox.Application.Articles.GetArticle;
@@ -17,7 +18,8 @@ namespace LetterBox.Application
 
             services.AddScoped<AddCategoryHandler>();
             services.AddScoped<RegisterUserHandler>();
-            services.AddScoped<LoginUserHandler>();
+            services.AddScoped<RefreshTokensHandler>();
+            services.AddScoped<LoginHandler>();
 
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly); // добавление всех валидаторов со сборки
 

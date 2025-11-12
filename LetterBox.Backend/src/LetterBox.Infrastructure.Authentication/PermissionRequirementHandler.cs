@@ -1,5 +1,5 @@
-﻿using LetterBox.Infrastructure.Authentication.IdentityManagers;
-using LetterBox.Infrastructure.Authentication.Models;
+﻿using LetterBox.Application.Models;
+using LetterBox.Infrastructure.Authentication.IdentityManagers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;

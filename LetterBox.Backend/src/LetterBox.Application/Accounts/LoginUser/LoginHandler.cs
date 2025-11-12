@@ -1,17 +1,18 @@
 ﻿using CSharpFunctionalExtensions;
 using LetterBox.Application.Accounts.DataModels;
+using LetterBox.Application.Accounts.Responses;
 using LetterBox.Application.Authorization;
 using LetterBox.Domain.Common;
 using Microsoft.AspNetCore.Identity;
 
 namespace LetterBox.Application.Accounts.LoginUser
 {
-    public class LoginUserHandler
+    public class LoginHandler
     {
         private readonly UserManager<User> _userManager;
         private readonly ITokenProvider _tokenProvider;
 
-        public LoginUserHandler(
+        public LoginHandler(
             UserManager<User> userManager,
             ITokenProvider tokenProvider)
         {
@@ -19,7 +20,7 @@ namespace LetterBox.Application.Accounts.LoginUser
             _tokenProvider = tokenProvider;
         }
 
-        public async Task<Result<string, ErrorList>> Handle(LoginUserCommand command, CancellationToken cancellation = default)
+        public async Task<Result<LoginResponse, ErrorList>> Handle(LoginUserCommand command, CancellationToken cancellation = default)
         {
             var user = await _userManager.FindByEmailAsync(command.Email);
             if (user is null)
@@ -29,9 +30,10 @@ namespace LetterBox.Application.Accounts.LoginUser
             if (!passwordConfirmation)
                 return Errors.User.UserError().ToErrorList();
 
-            var token = _tokenProvider.GenerateAccessToken(user);
+            var accessToken = await _tokenProvider.GenerateAccessToken(user, cancellation);
+            var refreshToken = await _tokenProvider.GenerateRefreshToken(user, accessToken.Jti, cancellation);
 
-            return token;
+            return new LoginResponse(accessToken.AccessToken, refreshToken, user.Id, user.Email!);
         }
     }
 }

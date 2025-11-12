@@ -11,7 +11,7 @@ namespace LetterBox.Infrastructure.Authentication.Seeding
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        private readonly AdminAccountManager _adminAccountManager;
+        private readonly AccountsManager _adminAccountManager;
         private readonly PermissionManager _permissionManager;
         private readonly RolePermissionManager _rolePermissionManager;
         private readonly AdminOptions _adminOptions;
@@ -19,7 +19,7 @@ namespace LetterBox.Infrastructure.Authentication.Seeding
         public AccountsSeederService(
             UserManager<User> userManager,
             RoleManager<Role> roleManager,
-            AdminAccountManager adminAccountManager,
+            AccountsManager adminAccountManager,
             PermissionManager permissionManager,
             RolePermissionManager rolePermissionManager,
             IOptions<AdminOptions> adminOptions)

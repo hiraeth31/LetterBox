@@ -26,6 +26,11 @@
             {
                 return Error.Validation("record.already.exist", $"Запись уже существует");
             }
+
+            public static Error Failure()
+            {
+                return Error.Failure("failure", $"Что-то пошло не так");
+            }
         }
 
         public static class User
@@ -34,6 +39,19 @@
             {
                 var label = name ?? "value";
                 return Error.Validation("user.is.invalid", $"{label} ошибка, связанная с пользователем");
+            }
+        }
+
+        public static class Tokens
+        {
+            public static Error ExpiredToken()
+            {
+                return Error.Validation("token.is.expired", $"Срок действия токена истек");
+            }
+
+            public static Error InvalidToken()
+            {
+                return Error.Validation("token.is.invalid", $"Этот токен невалидный");
             }
         }
     }
