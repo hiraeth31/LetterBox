@@ -143,6 +143,30 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "refresh_sessions",
+                schema: "accounts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RefreshToken = table.Column<Guid>(type: "uuid", nullable: false),
+                    Jti = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExpiresIn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_refresh_sessions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_refresh_sessions_users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "accounts",
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user_claims",
                 schema: "accounts",
                 columns: table => new
@@ -251,6 +275,12 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_refresh_sessions_UserId",
+                schema: "accounts",
+                table: "refresh_sessions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_role_claims_RoleId",
                 schema: "accounts",
                 table: "role_claims",
@@ -306,6 +336,10 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
         {
             migrationBuilder.DropTable(
                 name: "admin_accounts",
+                schema: "accounts");
+
+            migrationBuilder.DropTable(
+                name: "refresh_sessions",
                 schema: "accounts");
 
             migrationBuilder.DropTable(

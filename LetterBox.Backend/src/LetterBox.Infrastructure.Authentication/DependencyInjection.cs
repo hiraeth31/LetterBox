@@ -1,5 +1,6 @@
 ﻿using LetterBox.Application.Accounts.DataModels;
 using LetterBox.Application.Authorization;
+using LetterBox.Infrastructure.Authentication.Factories;
 using LetterBox.Infrastructure.Authentication.IdentityManagers;
 using LetterBox.Infrastructure.Authentication.Options;
 using LetterBox.Infrastructure.Authentication.Seeding;
@@ -41,17 +42,7 @@ namespace LetterBox.Infrastructure.Authentication
                     var jwtOptions = configuration.GetSection(JwtOptions.JWT).Get<JwtOptions>()
                         ?? throw new ApplicationException("Missing jwt configurations");
 
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = jwtOptions.Issuer,
-                        ValidAudience = jwtOptions.Audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        //ClockSkew = TimeSpan.Zero
-                    };
+                    options.TokenValidationParameters = TokenValidationParametersFactory.CreateWithLifeTime(jwtOptions);
                 });
 
             services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.JWT));
@@ -90,7 +81,8 @@ namespace LetterBox.Infrastructure.Authentication
 
             services.AddScoped<PermissionManager>();
             services.AddScoped<RolePermissionManager>();
-            services.AddScoped<AdminAccountManager>();
+            services.AddScoped<AccountsManager>();
+            services.AddScoped<IRefreshSessionManager, RefreshSessionManager>();
 
         }
     }

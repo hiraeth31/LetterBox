@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LetterBox.Infrastructure.Authentication.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20251031093812_Accounts_Initial")]
+    [Migration("20251108062138_Accounts_Initial")]
     partial class Accounts_Initial
     {
         /// <inheritdoc />
@@ -64,6 +64,34 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                         .IsUnique();
 
                     b.ToTable("permissions", "accounts");
+                });
+
+            modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.RefreshSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpiresIn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("Jti")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RefreshToken")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("refresh_sessions", "accounts");
                 });
 
             modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.Role", b =>
@@ -289,6 +317,17 @@ namespace LetterBox.Infrastructure.Authentication.Migrations
                     b.HasOne("LetterBox.Application.Accounts.DataModels.User", "User")
                         .WithOne()
                         .HasForeignKey("LetterBox.Application.Accounts.DataModels.AdminAccount", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LetterBox.Application.Accounts.DataModels.RefreshSession", b =>
+                {
+                    b.HasOne("LetterBox.Application.Accounts.DataModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
