@@ -3,6 +3,7 @@ using LetterBox.Application.Accounts.LoginUser;
 using LetterBox.Application.Accounts.RefreshTokens;
 using LetterBox.Application.Accounts.RegisterUser;
 using LetterBox.Application.Articles.AddArticle;
+using LetterBox.Application.Articles.GetArticle;
 using LetterBox.Application.Categories.AddCategory;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +14,8 @@ namespace LetterBox.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<AddArticleHandler>();
+            services.AddScoped<GetArticleHandler>();
+
             services.AddScoped<AddCategoryHandler>();
             services.AddScoped<RegisterUserHandler>();
             services.AddScoped<RefreshTokensHandler>();

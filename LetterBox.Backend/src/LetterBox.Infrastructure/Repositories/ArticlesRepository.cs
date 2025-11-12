@@ -1,5 +1,6 @@
 ﻿using LetterBox.Application.Articles;
 using LetterBox.Domain.ArticlesManagement;
+using Microsoft.EntityFrameworkCore;
 
 namespace LetterBox.Infrastructure.Repositories
 {
@@ -11,8 +12,8 @@ namespace LetterBox.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Guid> Add(
-            Article article, CancellationToken cancellationToken = default)
+        public async Task<Guid> 
+        Add(Article article, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -21,6 +22,25 @@ namespace LetterBox.Infrastructure.Repositories
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 return article.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Описание метода интерфейса для подстчёта всех статей (без фильтров)
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Возврат - <int> количество статей в бд (общее количество) </returns>
+        public async Task<int>
+        GetTotalCount(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                int count = await _dbContext.Articles.CountAsync();
+                return count;
             }
             catch (Exception)
             {
