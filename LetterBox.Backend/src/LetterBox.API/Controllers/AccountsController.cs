@@ -1,9 +1,12 @@
-﻿using LetterBox.Application.Accounts.LoginUser;
+﻿using LetterBox.API.EndpointResults;
+using LetterBox.Application.Accounts.LoginUser;
 using LetterBox.Application.Accounts.RefreshTokens;
 using LetterBox.Application.Accounts.RegisterUser;
+using LetterBox.Application.Accounts.Responses;
 using LetterBox.Contracts.Requests;
 using LetterBox.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetterBox.API.Controllers
@@ -12,11 +15,11 @@ namespace LetterBox.API.Controllers
     [Route("api/[controller]")]
     public class AccountsController : Controller
     {
-        [Permission(Permissions.Articles.Create)]
         [HttpPost("admin")]
-        public IActionResult TestAdmin()
+        [Permission(Permissions.Articles.Delete)]
+        public IActionResult Admin()
         {
-            return Ok();
+            return Ok("admin");
         }
 
         [HttpPost("registration")]
@@ -37,7 +40,7 @@ namespace LetterBox.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(
+        public async Task<EndpointResult<LoginResponse>> Login(
             [FromBody] LoginUserRequest request,
             [FromServices] LoginHandler handler,
             CancellationToken cancellationToken)
@@ -45,14 +48,22 @@ namespace LetterBox.API.Controllers
             var command = request.ToCommand();
 
             var result = await handler.Handle(command, cancellationToken);
-            if (result.IsFailure)
-            {
-                return BadRequest();
-            }
+            //if (result.IsFailure)
+            //{
+            //    return result;
+            //}
 
-            HttpContext.Response.Cookies.Append("refreshToken", result.Value.AccessToken.ToString());
+            //var cookieOptions = new CookieOptions
+            //{
+            //    HttpOnly = true,
+            //    Secure = true,
+            //    SameSite = SameSiteMode.None,
+            //    Expires = DateTime.UtcNow.AddDays(7)
+            //};
 
-            return Ok(result.Value);
+            HttpContext.Response.Cookies.Append("refreshToken", result.Value.RefreshToken.ToString());//, cookieOptions
+
+            return result;
         }
 
         [HttpPost("refresh")]
@@ -71,7 +82,15 @@ namespace LetterBox.API.Controllers
                 return BadRequest();
             }
 
-            HttpContext.Response.Cookies.Append("refreshToken", result.Value.AccessToken.ToString());
+            //var cookieOptions = new CookieOptions
+            //{
+            //    HttpOnly = true,
+            //    Secure = true,
+            //    SameSite = SameSiteMode.None,
+            //    Expires = DateTime.UtcNow.AddDays(7)
+            //};
+
+            HttpContext.Response.Cookies.Append("refreshToken", result.Value.RefreshToken.ToString());
 
             return Ok(result.Value);
         }

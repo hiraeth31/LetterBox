@@ -17,4 +17,8 @@
     <ProjectReference Include="..\LetterBox.Domain\LetterBox.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Articles\Queries\" />
+  </ItemGroup>
+
 </Project>
