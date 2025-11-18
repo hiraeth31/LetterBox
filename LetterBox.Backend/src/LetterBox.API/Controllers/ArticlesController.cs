@@ -2,6 +2,7 @@
 using LetterBox.Application.Articles.AddArticle;
 using LetterBox.Application.Articles.GetArticle;
 using LetterBox.Contracts.Requests;
+using LetterBox.Domain.ArticlesManagement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetterBox.API.Controllers
@@ -27,6 +28,20 @@ namespace LetterBox.API.Controllers
             CancellationToken cancellationToken)
         {
             return await handler.HandleTotalCount(cancellationToken);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("list")]
+        public async Task<IReadOnlyList<Article>> GetAll(
+            [FromServices] GetAllArticlesHandler handler,
+            CancellationToken cancellationToken)
+        {
+            return await handler.Handle(cancellationToken);
         }
         
     }

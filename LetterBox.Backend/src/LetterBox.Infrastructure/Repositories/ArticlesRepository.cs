@@ -7,6 +7,7 @@ namespace LetterBox.Infrastructure.Repositories
     public class ArticlesRepository : IArticlesRepository
     {
         private readonly ApplicationDbContext _dbContext;
+
         public ArticlesRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -24,6 +25,24 @@ namespace LetterBox.Infrastructure.Repositories
                 return article.Id;
             }
             catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Реализованный метод с IArticlesResository для вытягивания с бд всех статей
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>возврат - IReadOnlyList<Article> (на каждый обьект - json данные)</returns>
+        public async Task<IReadOnlyList<Article>> GetAll(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+               // return await _dbContext.Articles.Include(c => c.Category).ToListAsync(cancellationToken);
+                return await _dbContext.Articles.ToListAsync(cancellationToken);
+            }
+            catch(Exception)
             {
                 throw;
             }

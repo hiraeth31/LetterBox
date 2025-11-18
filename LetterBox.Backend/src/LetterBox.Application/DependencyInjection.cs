@@ -15,6 +15,7 @@ namespace LetterBox.Application
         {
             services.AddScoped<AddArticleHandler>();
             services.AddScoped<GetArticleHandler>();
+            services.AddScoped<GetAllArticlesHandler>();
 
             services.AddScoped<AddCategoryHandler>();
             services.AddScoped<RegisterUserHandler>();
