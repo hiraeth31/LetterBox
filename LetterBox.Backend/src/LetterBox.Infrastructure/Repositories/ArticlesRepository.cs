@@ -54,7 +54,7 @@ namespace LetterBox.Infrastructure.Repositories
         /// <param name="cancellationToken"></param>
         /// <returns>Возврат - <int> количество статей в бд (общее количество) </returns>
         public async Task<int>
-        GetTotalCount(CancellationToken cancellationToken = default)
+            GetTotalCount(CancellationToken cancellationToken = default)
         {
             try
             {

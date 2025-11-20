@@ -5,6 +5,7 @@ using LetterBox.Application.Accounts.RegisterUser;
 using LetterBox.Application.Articles.AddArticle;
 using LetterBox.Application.Articles.GetArticle;
 using LetterBox.Application.Categories.AddCategory;
+using LetterBox.Application.Categories.GetCategory;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LetterBox.Application
@@ -18,6 +19,9 @@ namespace LetterBox.Application
             services.AddScoped<GetAllArticlesHandler>();
 
             services.AddScoped<AddCategoryHandler>();
+            services.AddScoped<GetTotalCountCategoriesHandler>();
+            services.AddScoped<GetTotalDataCategoriesHandler>();
+
             services.AddScoped<RegisterUserHandler>();
             services.AddScoped<RefreshTokensHandler>();
             services.AddScoped<LoginHandler>();

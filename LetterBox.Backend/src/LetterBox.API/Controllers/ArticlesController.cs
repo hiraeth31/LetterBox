@@ -31,12 +31,12 @@ namespace LetterBox.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// HttpGet метод API контроллера для вытягивания всех статей из бд
         /// </summary>
         /// <param name="handler"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpGet("list")]
+        /// <returns> IReadOnlyList<Article> </returns>
+        [HttpGet("data")]
         public async Task<IReadOnlyList<Article>> GetAll(
             [FromServices] GetAllArticlesHandler handler,
             CancellationToken cancellationToken)
