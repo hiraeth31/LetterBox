@@ -1,5 +1,6 @@
 ﻿using LetterBox.Application.Articles;
 using LetterBox.Domain.ArticlesManagement;
+using Microsoft.EntityFrameworkCore;
 
 namespace LetterBox.Infrastructure.Repositories
 {
@@ -21,6 +22,18 @@ namespace LetterBox.Infrastructure.Repositories
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 return article.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IReadOnlyList<Article>> GetAll(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await _dbContext.Articles.ToListAsync(cancellationToken);
             }
             catch (Exception)
             {

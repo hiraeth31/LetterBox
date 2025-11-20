@@ -1,12 +1,14 @@
 ﻿using LetterBox.API.EndpointResults;
 using LetterBox.Application.Articles.AddArticle;
+using LetterBox.Application.Articles.Queries;
 using LetterBox.Contracts.Requests;
+using LetterBox.Domain.ArticlesManagement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetterBox.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ArticlesController : Controller
     {
         [HttpPost]
@@ -18,6 +20,14 @@ namespace LetterBox.API.Controllers
             var command = request.ToCommand();
 
             return await handler.Handle(command, cancellationToken);
+        }
+
+        [HttpGet]
+        public async Task<EndpointResult<IReadOnlyList<Article>>> Get(
+            [FromServices] GetArticleHandler handler,
+            CancellationToken cancellationToken)
+        {
+            return await handler.Handle(cancellationToken);
         }
     }
 }
