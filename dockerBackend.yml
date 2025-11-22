@@ -1,0 +1,17 @@
+services:
+ postgres:
+  container_name: news_db_container
+  image: postgres:15
+  restart: always
+  environment:
+   POSTGRES_DB: news_db
+   POSTGRES_USER: postgres
+   POSTGRES_PASSWORD: postgres
+  ports:
+  - "0.0.0.0:5436:5432" 
+  volumes:
+  - postgres-data:/var/lib/postgresql/data
+
+
+volumes:
+  postgres-data:
