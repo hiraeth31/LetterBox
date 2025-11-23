@@ -27,6 +27,18 @@ namespace LetterBox.Application.Accounts.DataModels
                 _roles = [role]
             };
         }
+
+        public static User CreateUser(string userName, string email, Role role)
+        {
+            return new User
+            {
+                UserName = userName,
+                Email = email,
+                CreatedAt = DateTime.UtcNow,
+                isActive = true,
+                _roles = [role]
+            };
+        }
     }
 
 }
