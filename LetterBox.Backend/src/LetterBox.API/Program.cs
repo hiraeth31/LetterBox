@@ -68,10 +68,29 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// добавление портов для работы с двух устройств
+string _7028 = "https://0.0.0.0:7028";
+string _5028 = "https://0.0.0.0:5028";
+
+builder.WebHost.UseUrls(_7028, _5028);
+
 app.UseCors(config =>
 {
-    //config.AllowAnyOrigin();
-    config.WithOrigins("http://localhost:5173")
+    string localHost = "http://localhost:3000";
+
+    string ip_front = "niggers ahahaha";
+    string port = ":3000";
+
+    string httpsHost_front = "https://" + ip_front + port;
+    string httpHost_front = "http://" + ip_front + port;
+
+    // config.AllowAnyOrigin(); // на случай, если разрешение нужно дать всем
+
+    config.WithOrigins(
+        localHost,
+        httpsHost_front,
+        httpHost_front
+    )
         .AllowCredentials()
         .AllowAnyHeader()
         .AllowAnyMethod();

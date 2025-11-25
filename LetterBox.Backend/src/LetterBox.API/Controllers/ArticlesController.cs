@@ -29,5 +29,22 @@ namespace LetterBox.API.Controllers
         {
             return await handler.Handle(cancellationToken);
         }
+
+        /// <summary>
+        /// api 
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <param name="id"></param>
+        /// <param name="cts"></param>
+        /// <returns></returns>
+        [HttpGet ("{id:guid}")]
+        public async Task<EndpointResult<Article>> GetById(
+            [FromServices] GetArticleByIdHandler handler,
+            [FromRoute] Guid id,
+            CancellationToken cts)
+        {
+            return await handler.Handle(id, cts);
+        }
+            
     }
 }

@@ -10,6 +10,7 @@ namespace LetterBox.Domain.Common
         {
             _errors = [.. errors];
         }
+
         public IEnumerator<Error> GetEnumerator()
         {
             return _errors.GetEnumerator();

@@ -1,5 +1,7 @@
-﻿using LetterBox.Application.Articles;
+﻿using CSharpFunctionalExtensions;
+using LetterBox.Application.Articles;
 using LetterBox.Domain.ArticlesManagement;
+using LetterBox.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace LetterBox.Infrastructure.Repositories
@@ -36,6 +38,31 @@ namespace LetterBox.Infrastructure.Repositories
                 return await _dbContext.Articles.ToListAsync(cancellationToken);
             }
             catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Описание метода getbyid (article) - linq запрос .firstOrDefaultAsync()
+        /// </summary>
+        /// <param name="a_id">guid Article (статьи)</param>
+        /// <param name="cts"></param>
+        /// <returns></returns>
+        public async Task<Result<Article, ErrorList>> GetById(
+            Guid a_id, CancellationToken cts = default)
+        {
+            try
+            {
+                var article = await _dbContext.Articles.
+                    FirstOrDefaultAsync(a => a.Id == a_id, cts);
+
+                if(article is null) 
+                    return Errors.General.NotFound(a_id).ToErrorList();
+
+                return article;
+            }
+            catch(Exception)
             {
                 throw;
             }

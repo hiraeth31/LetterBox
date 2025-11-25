@@ -14,6 +14,8 @@ namespace LetterBox.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<AddArticleHandler>();
+            services.AddScoped<GetArticleByIdHandler>();
+
             services.AddScoped<AddCategoryHandler>();
             services.AddScoped<RegisterUserHandler>();
             services.AddScoped<RefreshTokensHandler>();
