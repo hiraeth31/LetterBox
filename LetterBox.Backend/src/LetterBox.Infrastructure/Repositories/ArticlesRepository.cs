@@ -12,8 +12,8 @@ namespace LetterBox.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Guid> Add(
-            Article article, CancellationToken cancellationToken = default)
+        public async Task<Guid> 
+        Add(Article article, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -34,6 +34,18 @@ namespace LetterBox.Infrastructure.Repositories
             try
             {
                 return await _dbContext.Articles.ToListAsync(cancellationToken);
+        /// <summary>
+        /// Описание метода интерфейса для подстчёта всех статей (без фильтров)
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Возврат - <int> количество статей в бд (общее количество) </returns>
+        public async Task<int>
+        GetTotalCount(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                int count = await _dbContext.Articles.CountAsync();
+                return count;
             }
             catch (Exception)
             {
