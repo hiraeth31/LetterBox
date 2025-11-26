@@ -18,7 +18,6 @@ namespace LetterBox.Application.Articles.AddArticle
             _articlesRepository = articlesRepository;
 
             _validator = validator;
-
         }
 
         public async Task<Result<Guid, ErrorList>> Handle(AddArticleCommand command, CancellationToken cancellationToken = default)

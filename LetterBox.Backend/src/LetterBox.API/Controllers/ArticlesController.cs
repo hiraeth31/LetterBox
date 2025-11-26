@@ -1,6 +1,7 @@
 ﻿using LetterBox.API.EndpointResults;
 using LetterBox.Application.Articles.AddArticle;
 using LetterBox.Application.Articles.Queries;
+using LetterBox.Application.Articles.GetArticle;
 using LetterBox.Contracts.Requests;
 using LetterBox.Domain.ArticlesManagement;
 using Microsoft.AspNetCore.Mvc;
@@ -46,5 +47,13 @@ namespace LetterBox.API.Controllers
             return await handler.Handle(id, cts);
         }
             
+        [HttpGet("count")]
+        public async Task<EndpointResult<int>> GetCountArticles(
+            [FromServices] GetArticleHandler handler,
+            CancellationToken cancellationToken)
+        {
+            return await handler.HandleTotalCount(cancellationToken);
+        }
+        
     }
 }

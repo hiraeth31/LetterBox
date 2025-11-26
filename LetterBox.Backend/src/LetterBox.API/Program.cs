@@ -1,4 +1,4 @@
-using LetterBox.API.Middlewares;
+﻿using LetterBox.API.Middlewares;
 using LetterBox.Application;
 using LetterBox.Infrastructure;
 using LetterBox.Infrastructure.Authentication;
@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.ApiKey
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-   {
+    {
      new OpenApiSecurityScheme
      {
        Reference = new OpenApiReference
