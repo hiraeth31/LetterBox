@@ -29,6 +29,11 @@ namespace LetterBox.Infrastructure.Repositories
             }
         }
 
+        public async Task<IReadOnlyList<Article>> GetAll(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await _dbContext.Articles.ToListAsync(cancellationToken);
         /// <summary>
         /// Описание метода интерфейса для подстчёта всех статей (без фильтров)
         /// </summary>

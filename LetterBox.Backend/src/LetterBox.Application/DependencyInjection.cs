@@ -3,6 +3,7 @@ using LetterBox.Application.Accounts.LoginUser;
 using LetterBox.Application.Accounts.RefreshTokens;
 using LetterBox.Application.Accounts.RegisterUser;
 using LetterBox.Application.Articles.AddArticle;
+using LetterBox.Application.Articles.Queries;
 using LetterBox.Application.Articles.GetArticle;
 using LetterBox.Application.Categories.AddCategory;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,8 @@ namespace LetterBox.Application
             services.AddScoped<RegisterUserHandler>();
             services.AddScoped<RefreshTokensHandler>();
             services.AddScoped<LoginHandler>();
+
+            services.AddScoped<GetArticleHandler>();
 
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly); // добавление всех валидаторов со сборки
 
