@@ -11,12 +11,20 @@ namespace LetterBox.Application.Accounts.RegisterUser
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
-        public RegisterUserHandler(UserManager<User> userManager, RoleManager<Role> roleManager)
+        public RegisterUserHandler(UserManager<User> userManager, 
+            RoleManager<Role> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<UnitResult<ErrorList>> Handle(
             RegisterUserCommand command,
             CancellationToken cancellationToken = default)
