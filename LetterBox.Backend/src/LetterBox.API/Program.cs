@@ -68,7 +68,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// добавление портов для работы с двух устройств
+// РґРѕР±Р°РІР»РµРЅРёРµ РїРѕСЂС‚РѕРІ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РґРІСѓС… СѓСЃС‚СЂРѕР№СЃС‚РІ
 string _7028 = "https://0.0.0.0:7028";
 string _5028 = "https://0.0.0.0:5028";
 
@@ -78,13 +78,13 @@ app.UseCors(config =>
 {
     string localHost = "http://localhost:3000";
 
-    string ip_front = "niggers ahahaha";
+    string ip_front = "192.168.0.104";
     string port = ":3000";
 
     string httpsHost_front = "https://" + ip_front + port;
     string httpHost_front = "http://" + ip_front + port;
 
-    // config.AllowAnyOrigin(); // на случай, если разрешение нужно дать всем
+    // config.AllowAnyOrigin(); // РЅР° СЃР»СѓС‡Р°Р№, РµСЃР»Рё СЂР°Р·СЂРµС€РµРЅРёРµ РЅСѓР¶РЅРѕ РґР°С‚СЊ РІСЃРµРј
 
     config.WithOrigins(
         localHost,

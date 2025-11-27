@@ -23,8 +23,8 @@ namespace LetterBox.API.Controllers
             return await handler.Handle(command, cancellationToken);
         }
 
-        [HttpGet]
-        public async Task<EndpointResult<IReadOnlyList<Article>>> Get(
+        [HttpGet("data")]
+        public async Task<IReadOnlyList<Article>> Get(//EndpointResult<>
             [FromServices] GetArticleHandler handler,
             CancellationToken cancellationToken)
         {
@@ -32,10 +32,10 @@ namespace LetterBox.API.Controllers
         }
 
         /// <summary>
-        /// api 
+        /// api метод для получения статьи по guid
         /// </summary>
         /// <param name="handler"></param>
-        /// <param name="id"></param>
+        /// <param name="id">guid статьи</param>
         /// <param name="cts"></param>
         /// <returns></returns>
         [HttpGet ("{id:guid}")]
@@ -47,12 +47,18 @@ namespace LetterBox.API.Controllers
             return await handler.Handle(id, cts);
         }
             
+        /// <summary>
+        /// api метод для получения количства статей
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("count")]
         public async Task<EndpointResult<int>> GetCountArticles(
-            [FromServices] GetArticleHandler handler,
+            [FromServices] GetArticlesCountHandler handler,
             CancellationToken cancellationToken)
         {
-            return await handler.HandleTotalCount(cancellationToken);
+            return await handler.Handle(cancellationToken);
         }
         
     }

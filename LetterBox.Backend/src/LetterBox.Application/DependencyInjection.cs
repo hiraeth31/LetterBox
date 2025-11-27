@@ -7,6 +7,7 @@ using LetterBox.Application.Articles.Queries;
 using LetterBox.Application.Articles.GetArticle;
 using LetterBox.Application.Categories.AddCategory;
 using Microsoft.Extensions.DependencyInjection;
+using LetterBox.Application.Categories.GetCategory;
 
 namespace LetterBox.Application
 {
@@ -14,16 +15,24 @@ namespace LetterBox.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+            #region articles
             services.AddScoped<AddArticleHandler>();
-            services.AddScoped<GetArticleByIdHandler>();
             services.AddScoped<GetArticleHandler>();
+            services.AddScoped<GetArticleByIdHandler>();
+            services.AddScoped<GetArticlesCountHandler>();
+            #endregion
 
+            #region categories
             services.AddScoped<AddCategoryHandler>();
+            services.AddScoped<GetTotalCountCategoriesHandler>();
+            services.AddScoped<GetTotalDataCategoriesHandler>();
+            #endregion
+
+            #region user auth
             services.AddScoped<RegisterUserHandler>();
             services.AddScoped<RefreshTokensHandler>();
             services.AddScoped<LoginHandler>();
-
-            services.AddScoped<GetArticleHandler>();
+            #endregion
 
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly); // добавление всех валидаторов со сборки
 

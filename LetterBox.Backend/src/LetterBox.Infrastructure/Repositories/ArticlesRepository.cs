@@ -9,11 +9,18 @@ namespace LetterBox.Infrastructure.Repositories
     public class ArticlesRepository : IArticlesRepository
     {
         private readonly ApplicationDbContext _dbContext;
+
         public ArticlesRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// linq запрос к бд для создания статьи + валидация + 
+        /// </summary>
+        /// <param name="article"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<Guid> 
         Add(Article article, CancellationToken cancellationToken = default)
         {
@@ -31,11 +38,24 @@ namespace LetterBox.Infrastructure.Repositories
             }
         }
 
-        public async Task<IReadOnlyList<Article>> GetAll(CancellationToken cancellationToken = default)
+        /// <summary>
+        /// linq запрос к бд для вытягивания всех статей
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IReadOnlyList<Article>> GetTotalData(
+            CancellationToken cancellationToken = default)
         {
             try
             {
                 return await _dbContext.Articles.ToListAsync(cancellationToken);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+                
         /// <summary>
         /// Описание метода интерфейса для подстчёта всех статей (без фильтров)
         /// </summary>
