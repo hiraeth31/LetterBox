@@ -1,4 +1,6 @@
-﻿using LetterBox.Domain.ArticlesManagement;
+﻿using CSharpFunctionalExtensions;
+using LetterBox.Domain.ArticlesManagement;
+using LetterBox.Domain.Common;
 
 namespace LetterBox.Application.Categories
 {
@@ -9,5 +11,7 @@ namespace LetterBox.Application.Categories
         Task<int> GetTotalCount(CancellationToken cancellationToken = default);
 
         Task<IReadOnlyList<Category>> GetTotalData(CancellationToken cancellationToken = default);
+
+        Task<Result<Category, ErrorList>> GetById(Guid id, CancellationToken cancellationToken = default);
     }
 }

@@ -1,5 +1,7 @@
-﻿using LetterBox.Application.Categories;
+﻿using CSharpFunctionalExtensions;
+using LetterBox.Application.Categories;
 using LetterBox.Domain.ArticlesManagement;
+using LetterBox.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace LetterBox.Infrastructure.Repositories
@@ -31,6 +33,31 @@ namespace LetterBox.Infrastructure.Repositories
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 return category.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// метод linq запрос для получения категории по ID (guid)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>FirstOrDefaultAsync(c => c.Id == c_id) --> Result<Category, ErrorList> </returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<Result<Category, ErrorList>> GetById(Guid c_id, CancellationToken cts = default)
+        { 
+            try
+            {
+                var category = await _dbContext.Categories.
+                    FirstOrDefaultAsync(c => c.Id == c_id, cts);
+
+                if (category is null) 
+                    return Errors.General.NotFound(c_id).ToErrorList();
+
+                return category;
             }
             catch (Exception)
             {

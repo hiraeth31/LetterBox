@@ -1,9 +1,11 @@
 ﻿using LetterBox.API.EndpointResults;
 using LetterBox.Application.Categories.AddCategory;
 using LetterBox.Application.Categories.GetCategory;
+using LetterBox.Application.Categories.Queries;
 using LetterBox.Contracts.Requests;
 using LetterBox.Domain.ArticlesManagement;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 
 namespace LetterBox.API.Controllers
 {
@@ -49,6 +51,22 @@ namespace LetterBox.API.Controllers
             CancellationToken cancellationToken = default)
         {
             return await handler.Handle(cancellationToken);
+        }
+
+        /// <summary>
+        /// метод get 
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <param name="id"></param>
+        /// <param name="cts"></param>
+        /// <returns></returns>
+        [HttpGet("{id:guid}")]
+        public async Task<EndpointResult<Category>> GetById(
+            [FromServices] GetCategoryByIdHandler handler,
+            [FromRoute] Guid id,
+            CancellationToken cts)
+        {
+            return await handler.Handle(id, cts);
         }
 
     }

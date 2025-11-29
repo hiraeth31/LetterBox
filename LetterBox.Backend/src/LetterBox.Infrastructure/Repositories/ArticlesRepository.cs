@@ -89,7 +89,7 @@ namespace LetterBox.Infrastructure.Repositories
                 var article = await _dbContext.Articles.
                     FirstOrDefaultAsync(a => a.Id == a_id, cts);
 
-                if(article is null) 
+                if (article is null) 
                     return Errors.General.NotFound(a_id).ToErrorList();
 
                 return article;

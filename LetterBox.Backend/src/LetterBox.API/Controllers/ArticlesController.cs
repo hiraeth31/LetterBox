@@ -37,7 +37,7 @@ namespace LetterBox.API.Controllers
         /// <param name="handler"></param>
         /// <param name="id">guid статьи</param>
         /// <param name="cts"></param>
-        /// <returns></returns>
+        /// <returns>EndpointResult<Article> <-- Result<T, Error></T> </returns>
         [HttpGet ("{id:guid}")]
         public async Task<EndpointResult<Article>> GetById(
             [FromServices] GetArticleByIdHandler handler,

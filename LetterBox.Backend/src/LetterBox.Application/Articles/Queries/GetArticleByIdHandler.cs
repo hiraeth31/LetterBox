@@ -18,15 +18,13 @@ namespace LetterBox.Application.Articles.Queries
         /// </summary>
         /// <param name="guid"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns> Result<Article, ErrorList> <-- .FirstOrDefault() </returns>
         public async Task<Result<Article, ErrorList>> Handle(Guid guid, CancellationToken cancellationToken = default)
         {
             var articleResult = await articlesRepository.GetById(guid, cancellationToken);
 
             if (articleResult.IsFailure)
-            {
                 return Errors.General.Failure().ToErrorList();
-            }
 
             return articleResult.Value;
         }

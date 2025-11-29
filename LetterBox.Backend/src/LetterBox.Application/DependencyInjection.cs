@@ -8,6 +8,7 @@ using LetterBox.Application.Articles.GetArticle;
 using LetterBox.Application.Categories.AddCategory;
 using Microsoft.Extensions.DependencyInjection;
 using LetterBox.Application.Categories.GetCategory;
+using LetterBox.Application.Categories.Queries;
 
 namespace LetterBox.Application
 {
@@ -26,6 +27,7 @@ namespace LetterBox.Application
             services.AddScoped<AddCategoryHandler>();
             services.AddScoped<GetTotalCountCategoriesHandler>();
             services.AddScoped<GetTotalDataCategoriesHandler>();
+            services.AddScoped<GetCategoryByIdHandler>();
             #endregion
 
             #region user auth
