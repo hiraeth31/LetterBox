@@ -5,8 +5,6 @@ using LetterBox.Application.Accounts.RegisterUser;
 using LetterBox.Application.Accounts.Responses;
 using LetterBox.Contracts.Requests;
 using LetterBox.Infrastructure.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetterBox.API.Controllers

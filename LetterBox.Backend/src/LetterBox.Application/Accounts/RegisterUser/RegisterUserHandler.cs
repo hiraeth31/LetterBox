@@ -56,5 +56,6 @@ namespace LetterBox.Application.Accounts.RegisterUser
 
             return new ErrorList(Errors.General.ValueIsInvalid("123").ToErrorList());
         }
+
     }
 }
