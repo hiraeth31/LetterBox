@@ -5,8 +5,6 @@ using LetterBox.Application.Accounts.RegisterUser;
 using LetterBox.Application.Accounts.Responses;
 using LetterBox.Contracts.Requests;
 using LetterBox.Infrastructure.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetterBox.API.Controllers
@@ -71,7 +69,7 @@ namespace LetterBox.API.Controllers
             [FromServices] RefreshTokensHandler handler,
             CancellationToken cancellationToken)
         {
-            if(!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
+            if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
                 return Unauthorized();
 
             var command = new RefreshTokensCommand(Guid.Parse(refreshToken));
@@ -100,7 +98,7 @@ namespace LetterBox.API.Controllers
         {
             // Удалить куки
             HttpContext.Response.Cookies.Delete("refreshToken");
-            
+
             // todo Удалить рефреш токен из бд
 
             return Ok();
